@@ -40,10 +40,10 @@ router.post('/login', async(req, res) =>{
   const usuario = await Usuario.findOne({email}).select('+password');
 
   if(!usuario)
-    return res.status(400).send({error: 'Usuario não encontrado'});
+    return res.status(400).send({ds_mensagem: 'Usuario não encontrado'});
 
   if (!await bcrypt.compare(password, usuario.password))
-    return res.status(400).send({error: 'Senha incorreta!'});
+    return res.status(400).send({ds_mensagem: 'Senha incorreta!'});
 
   usuario.password = undefined;
 
@@ -54,6 +54,7 @@ router.post('/login', async(req, res) =>{
   res.send({ 
     usuario, 
     token: generateToken({ id: usuario.cpf }),
+    ic_sucesso: true
   });
 });
 
