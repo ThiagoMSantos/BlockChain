@@ -9,15 +9,6 @@ router.use(authMiddleware);
 
 const blockChain = new BlockChain();
 
-router.get('/', (req, res) =>{
-  try {
-    return res.send({ blockChain });
-
-  } catch (err) {
-    return res.send({ds_mensagem:'Erro ao listar BlockChain.'})
-  }
-});
-
 router.post('/', async (req, res) =>{
   try {
     
@@ -31,5 +22,15 @@ router.post('/', async (req, res) =>{
   }
 
 })
+
+router.get('/', (req, res) =>{
+  try {
+    return res.send({ blockChain });
+
+  } catch (err) {
+    return res.send({ds_mensagem:'Erro ao listar BlockChain.'})
+  }
+});
+
 
 module.exports = app => app.use('/blockchain', router);
