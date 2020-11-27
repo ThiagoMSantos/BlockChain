@@ -1,63 +1,35 @@
 const express = require("express");
 const authMiddleware = require('../middlewares/auth')
 
-const Usuario = require('../models/usuario')
-const Carteira = require('../models/carteira')
-const Moeda = require('../models/moeda')
+const BlockChain = require('../models/blockChain');
 
 const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/', async (req, res) =>{
+const blockChain = new BlockChain();
+
+router.get('/', (req, res) =>{
   try {
+    return res.send({ blockChain });
 
-    const carteiras = await Carteira.find().populate(['usuario', 'moedas']);
-
-    return res.send({ carteiras });
   } catch (err) {
-    return res.send({ds_mensagem:'Erro ao listar carteiras. Erro: '+err})
+    return res.send({ds_mensagem:'Erro ao listar BlockChain.'})
   }
 });
-
-router.get('/:usuarioId', async (req, res) =>{
-  try {
-    const carteira = await Carteira.find().populate(['usuario', 'moedas']);
-
-    carteira.map(data=>{
-      console.log(data);
-      if(req.params.usuarioId == data.usuario._id){
-        return res.send( data );
-      }
-    })
-
-  } catch (err) {
-    return res.send({ds_mensagem:'Erro ao listar carteira. Erro: '+err})
-  }
-})
 
 router.post('/', async (req, res) =>{
   try {
     
-    const { nome, moedas } = req.body;
+    const { informacao } = req.body;
 
-    const carteira = await Carteira.create({nome, usuario: req.userId });
+    blockChain.adicionarBloco({informacao});
 
-    await Promise.all(moedas.map(async moeda =>{
-      const moedaCarteira = new Moeda({ ...moeda, carteira: carteira._id });
-      await moedaCarteira.save();
-      
-      carteira.moedas.push(moedaCarteira);
-
-    }));
-
-    await carteira.save();
-
-    return res.send({carteira});
+    return res.send({ds_mensagem: 'Bloco Adicionado'});
   } catch (err) {
-    return res.send({ds_mensagem:'Erro ao criar carteira. Erro: '+err})
+    return res.send({ds_mensagem:'Erro ao criar bloco.'})
   }
 
 })
 
-module.exports = app => app.use('/dashboard', router);
+module.exports = app => app.use('/blockchain', router);
