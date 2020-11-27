@@ -32,7 +32,7 @@ router.post('/register', async(req, res) =>{
       ic_sucesso: true
     });
   } catch(err){
-    return res.status(400).send({err : 'Registro falho. Erro: ' + err})
+    return res.status(400).send({ds_mensagem : 'Registro falho. Erro: ' + err})
   }
 });
 
