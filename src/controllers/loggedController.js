@@ -9,7 +9,13 @@ const router = express.Router();
 router.use(authMiddleware);
 
 router.get('/', (req, res) =>{
-  res.send({ cpfUsuario: req.userId });
+  try {
+    const carteiras = await Carteira.find();
+
+    return res.send({ carteiras });
+  } catch (err) {
+    return res.send({ds_mensagem:'Erro ao listar carteiras. Erro: '+err})
+  }
 });
 
 router.get('/:cpfUsuario', async (req, res) =>{
@@ -18,7 +24,7 @@ router.get('/:cpfUsuario', async (req, res) =>{
 
 router.post('/', async (req, res) =>{
   try {
-    const carteira = await Carteira.create(req.body );
+    const carteira = await Carteira.create({...req.body, user: req.userId });
 
     return res.send({carteira});
   } catch (err) {
