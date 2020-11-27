@@ -16,10 +16,10 @@ router.post('/register', async(req, res) =>{
 
   try{
     if (await Usuario.findOne({cpf}))
-      return res.status(400).send({ic_sucesso: true, ds_mensagem: 'CPF já cadastrado.'});
+      return res.send({ic_sucesso: true, ds_mensagem: 'CPF já cadastrado.'});
 
     if (await Usuario.findOne({email}))
-      return res.status(400).send({ic_sucesso: true, ds_mensagem: 'Email já cadastrado.'});
+      return res.send({ic_sucesso: true, ds_mensagem: 'Email já cadastrado.'});
   
     const usuario = await Usuario.create(req.body);
 
