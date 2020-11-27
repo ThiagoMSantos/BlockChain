@@ -16,4 +16,8 @@ router.get('/:cpfUsuario', async (req, res) =>{
   res.send({ cpfUsuario: req.userId });
 })
 
+router.post('/', async (req, res) =>{
+  res.send({ cpfUsuario: req.userId });
+})
+
 module.exports = app => app.use('/dashboard', router);
