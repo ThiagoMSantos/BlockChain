@@ -24,7 +24,7 @@ router.get('/:cpfUsuario', async (req, res) =>{
 
 router.post('/', async (req, res) =>{
   try {
-    const carteira = await Carteira.create({...req.body, user: req.userId });
+    const carteira = await Carteira.create({...req.body, usuario: req.userId });
 
     return res.send({carteira});
   } catch (err) {
