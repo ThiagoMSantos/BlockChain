@@ -16,10 +16,10 @@ router.post('/register', async(req, res) =>{
 
   try{
     if (await Usuario.findOne({cpf}))
-      return res.status(400).send({ic_sucesso: true, ds_mensagem: 'CPF já cadastrado.'});
+      return res.status(400).send({error: 'CPF já cadastrado.'});
 
     if (await Usuario.findOne({email}))
-      return res.status(400).send({ic_sucesso: true, ds_mensagem: 'Email já cadastrado.'});
+      return res.status(400).send({error: 'Email já cadastrado.'});
   
     const usuario = await Usuario.create(req.body);
 
@@ -28,8 +28,6 @@ router.post('/register', async(req, res) =>{
     return res.send({
       usuario,
       token: generateToken({ id: usuario.cpf }),
-      ds_mensagem: 'Obrigado por utilizar nossa plataforma!',
-      ic_sucesso: true,
     });
   } catch(err){
     return res.status(400).send({err : 'Registro falho. Erro: ' + err})
