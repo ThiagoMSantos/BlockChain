@@ -9,6 +9,7 @@ const MoedaSchema = new mongoose.Schema({
   qt:{
     type: Number,
     required: true,
+    default:0,
   },
   carteira:{
     type: mongoose.Schema.Types.ObjectId,

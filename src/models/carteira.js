@@ -9,7 +9,7 @@ const CarteiraSchema = new mongoose.Schema({
   usuario:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
-    required: true,
+    require: true,
   },
   moeda:[{
     type: mongoose.Schema.Types.ObjectId,

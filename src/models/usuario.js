@@ -25,6 +25,7 @@ const UsuarioSchema = new mongoose.Schema({
   carteira:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'Carteira',
+    require:true,
   },
   createdAt:{
     type:Date,
