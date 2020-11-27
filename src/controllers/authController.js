@@ -32,7 +32,10 @@ router.post('/register', async(req, res) =>{
       ic_sucesso: true
     });
   } catch(err){
-    return err
+    return res.send({
+      ds_mensagem:'Não foi possivel realizar o cadastro!',
+      ic_sucesso: true
+    });
   }
 });
 
