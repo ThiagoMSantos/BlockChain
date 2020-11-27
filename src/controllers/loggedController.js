@@ -18,6 +18,15 @@ router.get('/:cpfUsuario', async (req, res) =>{
 
 router.post('/', async (req, res) =>{
   res.send({ cpfUsuario: req.userId });
+
+  try {
+    const carteira = await Carteira.create(req.body );
+
+    return res.send({carteira});
+  } catch (err) {
+    return res.send({ds_mensagem:'Erro ao criar carteira.'})
+  }
+
 })
 
 module.exports = app => app.use('/dashboard', router);
