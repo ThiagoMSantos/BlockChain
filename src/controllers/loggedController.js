@@ -25,6 +25,7 @@ router.get('/:usuarioId', async (req, res) =>{
     const carteira = await Carteira.find().populate(['usuario', 'moedas']);
 
     carteira.map(data=>{
+      console.log(data);
       if(req.params.usuarioId == data.usuario._id){
         return res.send({ data });
       }
