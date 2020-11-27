@@ -32,5 +32,15 @@ router.get('/', (req, res) =>{
   }
 });
 
+router.get('/valida', (req, res) =>{
+  try {
+    const valid = blockChain.validaBlockChain()
+    return res.send({ valid });
+
+  } catch (err) {
+    return res.send({ds_mensagem:'Erro ao listar BlockChain.'})
+  }
+});
+
 
 module.exports = app => app.use('/blockchain', router);
