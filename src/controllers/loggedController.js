@@ -27,7 +27,7 @@ router.get('/:usuarioId', async (req, res) =>{
     carteira.map(data=>{
       console.log(data);
       if(req.params.usuarioId == data.usuario._id){
-        return res.send({ data });
+        return res.send([{ data }]);
       }
     })
 
