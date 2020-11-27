@@ -27,7 +27,7 @@ router.post('/register', async(req, res) =>{
 
     return res.send({
       usuario,
-      token: generateToken({ id: usuario.cpf }),
+      token: generateToken({ id: usuario.id }),
       ds_mensagem:'Obrigado por utilizar nossa plataforma!',
       ic_sucesso: true
     });
@@ -52,13 +52,13 @@ router.post('/login', async(req, res) =>{
 
   usuario.password = undefined;
 
-  const token = jwt.sign({ id: usuario.cpf }, authConfig.secret, {
+  const token = jwt.sign({ id: usuario.id }, authConfig.secret, {
     expiresIn: 86400,
   });
 
   res.send({ 
     usuario, 
-    token: generateToken({ id: usuario.cpf }),
+    token: generateToken({ id: usuario.id }),
     ic_sucesso: true
   });
 });

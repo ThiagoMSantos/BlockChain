@@ -8,12 +8,18 @@ const MoedaSchema = new mongoose.Schema({
   },
   qt:{
     type: Number,
-    required: true,
+    require: true,
     default:0,
   },
   carteira:{
     type: mongoose.Schema.Types.ObjectId,
-    ref:'Carteira'
+    ref:'Carteira',
+    require: true,
+  },
+  assignedTo:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:'Usuario',
+    require: true,
   },
   createdAt:{
     type:Date,

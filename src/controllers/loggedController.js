@@ -1,6 +1,7 @@
 const express = require("express");
 const authMiddleware = require('../middlewares/auth')
 
+const Usuario = require('../models/usuario')
 const Carteira = require('../models/carteira')
 const Moeda = require('../models/moeda')
 
@@ -8,9 +9,10 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/', (req, res) =>{
+router.get('/', async (req, res) =>{
   try {
-    const carteiras = await Carteira.find();
+
+    const carteiras = await Carteira.find().populate(['usuario', 'moedas']);
 
     return res.send({ carteiras });
   } catch (err) {
@@ -18,13 +20,37 @@ router.get('/', (req, res) =>{
   }
 });
 
-router.get('/:cpfUsuario', async (req, res) =>{
-  res.send({ cpfUsuario: req.userId });
+router.get('/:usuarioId', async (req, res) =>{
+  try {
+    const carteira = await Carteira.find().populate(['usuario', 'moedas']);
+
+    carteira.map(data=>{
+      if(req.params.usuarioId == data.usuario._id){
+        return res.send({ data });
+      }
+    })
+
+  } catch (err) {
+    return res.send({ds_mensagem:'Erro ao listar carteira. Erro: '+err})
+  }
 })
 
 router.post('/', async (req, res) =>{
   try {
-    const carteira = await Carteira.create({...req.body, usuario: req.userId });
+    
+    const { nome, moedas } = req.body;
+
+    const carteira = await Carteira.create({nome, usuario: req.userId });
+
+    await Promise.all(moedas.map(async moeda =>{
+      const moedaCarteira = new Moeda({ ...moeda, carteira: carteira._id });
+      await moedaCarteira.save();
+      
+      carteira.moedas.push(moedaCarteira);
+
+    }));
+
+    await carteira.save();
 
     return res.send({carteira});
   } catch (err) {

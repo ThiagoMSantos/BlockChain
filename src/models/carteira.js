@@ -11,7 +11,7 @@ const CarteiraSchema = new mongoose.Schema({
     ref: 'Usuario',
     require: true,
   },
-  moeda:[{
+  moedas:[{
     type: mongoose.Schema.Types.ObjectId,
     ref:'Moeda',
   }],
