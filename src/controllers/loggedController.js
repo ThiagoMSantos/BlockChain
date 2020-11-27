@@ -22,7 +22,7 @@ router.post('/', async (req, res) =>{
 
     return res.send({carteira});
   } catch (err) {
-    return res.send({ds_mensagem:'Erro ao criar carteira.'})
+    return res.send({ds_mensagem:'Erro ao criar carteira. Erro: '+err})
   }
 
 })
